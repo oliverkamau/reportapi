@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="receipt" pageWidth="421" pageHeight="500" orientation="Landscape" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e0d718d6-aeff-4275-9b69-19e93ef0351b">
+    <property name="com.jaspersoft.studio.unit." value="pixel"/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="highdb.xml"/>
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <parameter name="balance" class="java.math.BigDecimal"/>
+    <parameter name="payment" class="java.lang.Long"/>
+    <parameter name="receiptdate" class="java.lang.String"/>
+    <parameter name="logo" class="java.lang.Object"/>
+    <queryString>
+        <![CDATA[select organization_name,username,organization_cellno,organization_telno,organization_email,physical_address,postal_address
+       ,rf.payment_code as code,student_name,adm_no,class_name,bankbranch_name,payment_date,payment_receiptno,charge_name,paymentdetailcharge_amount,payment_amount
+from organization_organization,recievefeedetails_feepaymentdetails
+    inner join standardcharges_standardcharges on recievefeedetails_feepaymentdetails.paymentdetail_standardcharge_id = standardcharges_standardcharges.charge_code
+inner join recievefees_feepayment rf on recievefeedetails_feepaymentdetails.paymentdetail_payment_id = rf.payment_code
+inner join users_user on rf.payment_capturedby_id = users_user.user_id
+inner join bankbranches_bankbranches bb on rf.payment_bank_id = bb.bankbranch_code
+inner join paymentmodes_paymentmodes pp on rf.payment_mode_id = pp.payment_code
+inner join banks_banks b on bb.bankbranch_bank_id = b.bank_code
+inner join classes_schoolclasses cs on rf.payment_class_id = cs.class_code
+inner join student_students ss on rf.payment_student_id = ss.student_code
+where recievefeedetails_feepaymentdetails.paymentdetail_payment_id  = $P{payment}]]>
+    </queryString>
+    <field name="organization_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="organization_name"/>
+    </field>
+    <field name="organization_cellno" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="organization_cellno"/>
+    </field>
+    <field name="organization_telno" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="organization_telno"/>
+    </field>
+    <field name="organization_email" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="organization_email"/>
+    </field>
+    <field name="student_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="student_name"/>
+    </field>
+    <field name="adm_no" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="adm_no"/>
+    </field>
+    <field name="class_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="class_name"/>
+    </field>
+    <field name="bankbranch_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="bankbranch_name"/>
+    </field>
+    <field name="payment_date" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="payment_date"/>
+    </field>
+    <field name="payment_receiptno" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="payment_receiptno"/>
+    </field>
+    <field name="charge_name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="charge_name"/>
+    </field>
+    <field name="postal_address" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="postal_address"/>
+    </field>
+    <field name="physical_address" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="physical_address"/>
+    </field>
+    <field name="paymentdetailcharge_amount" class="java.math.BigDecimal">
+        <property name="com.jaspersoft.studio.field.label" value="paymentdetailcharge_amount"/>
+    </field>
+    <field name="payment_amount" class="java.math.BigDecimal">
+        <property name="com.jaspersoft.studio.field.label" value="payment_amount"/>
+    </field>
+    <field name="username" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="username"/>
+    </field>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <pageHeader>
+        <band height="80">
+            <rectangle>
+                <reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="380" height="75" uuid="83444839-2706-40ab-b7a0-7dd97de3277f"/>
+                <graphicElement>
+                    <pen lineColor="#C4BBBB"/>
+                </graphicElement>
+            </rectangle>
+            <image scaleImage="FillFrame" evaluationTime="Master">
+                <reportElement x="1" y="2" width="129" height="73" uuid="f1583533-d731-4ad1-97da-c3f75ab1ad85"/>
+                <imageExpression><![CDATA[$P{logo}]]></imageExpression>
+            </image>
+            <textField>
+                <reportElement x="216" y="2" width="160" height="15" uuid="0739c3f0-035e-44ee-ae76-2de6c3c99680">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{organization_name}.toUpperCase()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="216" y="18" width="160" height="15" uuid="c22c1ad0-815b-445c-b2a1-209808b47c76">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{physical_address}.toUpperCase()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="215" y="60" width="160" height="15" uuid="35eb0cda-a0aa-47b3-90de-2e587cdd0e31">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{postal_address}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="216" y="33" width="160" height="15" uuid="540b7772-5d9b-4ff6-b56b-8e948407d612">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{organization_cellno} +"/" +$F{organization_telno}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="215" y="48" width="160" height="15" uuid="b61d96e5-cadb-48f5-8306-19648ecfcfb7"/>
+                <textFieldExpression><![CDATA[$F{organization_email}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="144">
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="26" width="70" height="15" uuid="6b2eb4aa-b700-4b3c-8b25-3dff1d2c1b7e">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[NAME:]]></text>
+            </staticText>
+            <textField pattern="">
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="70" y="27" width="310" height="15" uuid="29583fdb-4512-4270-851b-f8929867163e"/>
+                <textElement>
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{student_name}.toUpperCase()]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="66" width="70" height="15" uuid="6dd30f67-c2b2-412b-9040-51ffedfff0df">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[BANK]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="270" y="121" width="110" height="23" uuid="89a07c43-3515-4fe1-8235-6b6831fa3aba">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[AMOUNT]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="101" width="380" height="20" uuid="ad75ded3-5173-470f-b417-84107123f46b"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[RECEIPT PAYMENT DETAILS]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="121" width="270" height="23" uuid="c1438243-552a-4aef-a513-156dfaf21532">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[ITEM]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="86" width="70" height="15" uuid="44b68298-74de-46c7-a165-8e42f1d335cb">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TSN No.:]]></text>
+            </staticText>
+            <textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="70" y="66" width="306" height="15" uuid="849b5276-b11f-4ebc-8dcf-07d274bc2697"/>
+                <textElement>
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{bankbranch_name}.toUpperCase()]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00;#,##0.00">
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="70" y="46" width="100" height="15" uuid="b8ce1ce9-953b-4425-8e6a-5a7890cc270c"/>
+                <textElement>
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{adm_no}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="46" width="70" height="15" uuid="b9ff5bec-dde4-4978-a5f4-fa8c33fbbb7e">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ADM NO:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="170" y="46" width="70" height="15" uuid="592c7e4c-1361-4450-bc0d-1c5b6381a1b7">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[CLASS:]]></text>
+            </staticText>
+            <textField pattern="#,##0.00;#,##0.00">
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="240" y="46" width="135" height="15" uuid="647d9173-82d6-48ba-8667-f472e3bbe581"/>
+                <textElement>
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{class_name}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="70" y="86" width="80" height="15" uuid="f8d2e184-bf66-4674-8bd8-2896aecd9923">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[www]]></text>
+            </staticText>
+            <rectangle>
+                <reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="380" height="26" uuid="8224575a-7810-415c-a35b-8cdff4a974ac"/>
+                <graphicElement>
+                    <pen lineColor="#C4BBBB"/>
+                </graphicElement>
+            </rectangle>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="150" y="6" width="100" height="15" uuid="0d9416b8-762c-45ac-9a33-4cfea49672f5">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[FEE RECEIPT]]></text>
+            </staticText>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="6" width="60" height="15" uuid="7875cb61-3f9b-4fdc-8cda-f8e12ced1e44">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ReceiptNo:]]></text>
+            </staticText>
+            <textField>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="60" y="6" width="90" height="15" uuid="0f1c6d11-3a0d-4854-bbfc-c40fb55870ec"/>
+                <textElement>
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{payment_receiptno}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="260" y="6" width="40" height="15" uuid="9b519caf-4bb6-4df7-a85c-34105b7df646">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement>
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Date:]]></text>
+            </staticText>
+            <textField pattern="MMM d, yyyy">
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="300" y="6" width="75" height="15" uuid="2bb97b17-8059-4dda-b755-22fbf0ceebd5"/>
+                <textElement>
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{receiptdate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="20" splitType="Stretch">
+            <textField pattern="">
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="270" height="20" uuid="5aa79b3b-5e97-458b-8c6e-28b00557585d"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{charge_name}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00;#,##0.00">
+                <reportElement positionType="Float" stretchType="RelativeToTallestObject" x="270" y="0" width="110" height="20" uuid="dc0aaa99-9a15-4e33-a937-4c54d0a3183a"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{paymentdetailcharge_amount}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <summary>
+        <band height="100" splitType="Stretch">
+            <property name="com.jaspersoft.studio.unit.height" value="px"/>
+            <staticText>
+                <reportElement positionType="Float" x="0" y="18" width="70" height="17" uuid="686dc64b-4eef-4592-8db2-9c9b4a3f4fef"/>
+                <textElement verticalAlignment="Bottom">
+                    <font size="10"/>
+                </textElement>
+                <text><![CDATA[Fee Balance:]]></text>
+            </staticText>
+            <textField>
+                <reportElement positionType="Float" x="70" y="20" width="310" height="15" uuid="4d231b8a-bf29-461d-8ab8-06d770b913f0"/>
+                <textElement verticalAlignment="Bottom">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{balance}]]></textFieldExpression>
+            </textField>
+            <textField pattern="">
+                <reportElement positionType="Float" x="170" y="0" width="100" height="18" uuid="e3eb8e9a-fad7-44c3-8f63-b22b3695231a"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["TOTAL: "]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00;#,##0.00">
+                <reportElement positionType="Float" x="270" y="0" width="110" height="18" uuid="4e8f1eef-097e-4ce2-b7af-1b9cbded734a"/>
+                <box>
+                    <topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center" verticalAlignment="Bottom">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{payment_amount}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" x="0" y="40" width="70" height="17" uuid="c743b4f8-2d3f-4a9d-924b-e47abe2e1f3f"/>
+                <textElement verticalAlignment="Bottom">
+                    <font size="10"/>
+                </textElement>
+                <text><![CDATA[Recieved By:]]></text>
+            </staticText>
+            <textField>
+                <reportElement positionType="Float" x="70" y="43" width="306" height="15" uuid="965a62d7-cf36-4858-ba3c-9b6fee0dd7b0"/>
+                <textElement verticalAlignment="Bottom">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" x="0" y="60" width="70" height="17" uuid="c97e8215-2b77-46a5-8fa3-5f314ba6f577"/>
+                <textElement verticalAlignment="Bottom">
+                    <font size="10"/>
+                </textElement>
+                <text><![CDATA[Recieved For:]]></text>
+            </staticText>
+            <textField>
+                <reportElement positionType="Float" x="70" y="61" width="306" height="15" uuid="aa14b2eb-fefb-4fbb-8db0-65c7b7409654"/>
+                <textElement verticalAlignment="Bottom">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{organization_name}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement positionType="Float" x="1" y="80" width="379" height="17" uuid="47c65e8c-0354-4d73-bd70-65d87ae2b131"/>
+                <textElement verticalAlignment="Bottom">
+                    <font size="10"/>
+                </textElement>
+                <text><![CDATA[N.B Money once paid is not refundable for any reason]]></text>
+            </staticText>
+        </band>
+    </summary>
+</jasperReport>
