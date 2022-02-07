@@ -2,8 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_creditors_statement" pageWidth="1042" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="1002" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="88bac532-b820-4a83-81eb-8af960dcbfc8">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalDocker"/>
-	<property name="net.sf.jasperreports.default.font.name" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="highdb.xml"/>
 	<parameter name="logo" class="java.lang.Object"/>
 	<queryString>
 		<![CDATA[select case when student_gender='F' then 'FEMALE' when  student_gender='M' then 'MALE' else 'OTHER' end as gender,coalesce(father_name,mother_name)parent,adm_no,student_upi,class_name,student_phone,student_email,student_name,organization_name,organization_cellno,organization_telno,organization_email,physical_address,postal_address
@@ -45,7 +44,7 @@ group by student_gender,adm_no,student_upi,student_name,class_name,father_name,m
 						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Bottom">
-						<font size="14" isBold="true"/>
+						<font fontName="DejaVu Serif" size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{gender}.toUpperCase()]]></textFieldExpression>
 				</textField>
@@ -65,7 +64,7 @@ group by student_gender,adm_no,student_upi,student_name,class_name,father_name,m
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font  isBold="true"/>
+						<font isBold="true"/>
 					</textElement>
 					<text><![CDATA[NO.]]></text>
 				</staticText>
@@ -78,7 +77,7 @@ group by student_gender,adm_no,student_upi,student_name,class_name,father_name,m
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font  isBold="true"/>
+						<font isBold="true"/>
 						<paragraph rightIndent="5"/>
 					</textElement>
 					<text><![CDATA[ADMNO]]></text>
@@ -106,7 +105,7 @@ group by student_gender,adm_no,student_upi,student_name,class_name,father_name,m
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font  isBold="true"/>
+						<font isBold="true"/>
 						<paragraph rightIndent="5"/>
 					</textElement>
 					<text><![CDATA[STUDENT NAME]]></text>
@@ -188,7 +187,7 @@ group by student_gender,adm_no,student_upi,student_name,class_name,father_name,m
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="12" isBold="true"/>
+						<font fontName="DejaVu Serif" size="12" isBold="true"/>
 						<paragraph rightIndent="5"/>
 					</textElement>
 					<text><![CDATA[TOTAL:]]></text>
@@ -202,7 +201,7 @@ group by student_gender,adm_no,student_upi,student_name,class_name,father_name,m
 						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10" isBold="true"/>
+						<font fontName="DejaVu Serif" size="10" isBold="true"/>
 						<paragraph rightIndent="5"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{gender_COUNT}]]></textFieldExpression>
@@ -275,7 +274,7 @@ group by student_gender,adm_no,student_upi,student_name,class_name,father_name,m
 			<textField pattern="d/M/yyyy">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="832" y="77" width="166" height="25" uuid="f30cab05-461b-4005-a990-2920b5dd09c2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="DejaVu Serif" isBold="true"/>
 					<paragraph rightIndent="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
@@ -296,7 +295,7 @@ group by student_gender,adm_no,student_upi,student_name,class_name,father_name,m
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font fontName="DejaVu Serif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{gender_COUNT}]]></textFieldExpression>
 			</textField>
