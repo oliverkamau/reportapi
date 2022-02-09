@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 import java.io.*;
 import java.math.BigDecimal;
@@ -43,8 +42,15 @@ public class ReportController {
                                    @RequestParam(required = false) BigDecimal balance,
                                    @RequestParam(required = false) String path,
                                    @RequestParam(required = false) String paymentdate,
-                                   @RequestParam(required = false) String format
+                                   @RequestParam(required = false) String format,
+                                   @RequestParam(required = false) Long id,
+                                   @RequestParam(required = false) String dateFrom,
+                                   @RequestParam(required = false) String dateTo,
+                                   @RequestParam(required = false) String dateAsof
                                   ) throws JRException, SQLException, IOException {
+        if(format==null){
+            format = "pdf";
+        }
         JSONObject j = new JSONObject();
         if(format.equalsIgnoreCase("pdf")) {
             String p = "C:\\pdf\\" + report + ".pdf";
@@ -57,7 +63,10 @@ public class ReportController {
             parameters.put("balance", balance);
             parameters.put("payment", payment);
             parameters.put("receiptdate", paymentdate);
-
+            parameters.put("id", id);
+            parameters.put("dateFrom", dateFrom);
+            parameters.put("dateTo", dateTo);
+            parameters.put("dateAsof", dateAsof);
 
             boolean exist = Files.deleteIfExists(Paths.get("C:\\pdf\\" + report + ".pdf"));
             if (exist) {
@@ -75,38 +84,42 @@ public class ReportController {
             j.put("path",p);
         }
         else if(format.equalsIgnoreCase("excel")) {
-        File f = new File(path);
-        byte[] logo = Files.readAllBytes(Paths.get(path));
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("logo", logo);
-        parameters.put("balance", balance);
-        parameters.put("payment", payment);
-        parameters.put("receiptdate", paymentdate);
-        File file = ResourceUtils.getFile("classpath:reports/" + report + ".jrxml");
-        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
+            File f = new File(path);
+            byte[] logo = Files.readAllBytes(Paths.get(path));
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("logo", logo);
+            parameters.put("balance", balance);
+            parameters.put("payment", payment);
+            parameters.put("receiptdate", paymentdate);
+            parameters.put("id", id);
+            parameters.put("dateFrom", dateFrom);
+            parameters.put("dateTo", dateTo);
+            parameters.put("dateAsof", dateAsof);
+            File file = ResourceUtils.getFile("classpath:reports/" + report + ".jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
 
             SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
-        configuration.setOnePagePerSheet(true);
-        configuration.setIgnoreGraphics(false);
+            configuration.setOnePagePerSheet(true);
+            configuration.setIgnoreGraphics(false);
 
-        File outputFile = new File("gender_distribution.xlsx");
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-             OutputStream fileOutputStream = new FileOutputStream(outputFile)) {
-            Exporter exporter = new JRXlsxExporter();
-            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
-            exporter.setConfiguration(configuration);
-            exporter.exportReport();
-            byteArrayOutputStream.writeTo(fileOutputStream);
-        }
+            File outputFile = new File(report+".xlsx");
+            try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                 OutputStream fileOutputStream = new FileOutputStream(outputFile)) {
+                Exporter exporter = new JRXlsxExporter();
+                exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(byteArrayOutputStream));
+                exporter.setConfiguration(configuration);
+                exporter.exportReport();
+                byteArrayOutputStream.writeTo(fileOutputStream);
+            }
 
-        Path src = Paths.get(report+".xlsx");
-        boolean exist = Files.deleteIfExists(Paths.get("C:\\excel\\" + report + ".xlsx"));
-        Path dest = Paths.get("C:\\excel\\" + report + ".xlsx");
-        FileUtils.copyFile(src.toFile(), dest.toFile());
-        boolean rm = Files.deleteIfExists(Paths.get(report+".xlsx"));
-        j.put("path","C:\\excel\\" + report + ".xlsx");
+            Path src = Paths.get(report+".xlsx");
+            boolean exist = Files.deleteIfExists(Paths.get("C:\\excel\\" + report + ".xlsx"));
+            Path dest = Paths.get("C:\\excel\\" + report + ".xlsx");
+            FileUtils.copyFile(src.toFile(), dest.toFile());
+            boolean rm = Files.deleteIfExists(Paths.get(report+".xlsx"));
+            j.put("path","C:\\excel\\" + report + ".xlsx");
 
         }
 
