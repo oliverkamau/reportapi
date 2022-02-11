@@ -46,15 +46,15 @@ public class ReportController {
                                    @RequestParam(required = false) Long id,
                                    @RequestParam(required = false) String dateFrom,
                                    @RequestParam(required = false) String dateTo,
-                                   @RequestParam(required = false) String dateAsof
+                                   @RequestParam(required = false) String dateAsof,
+                                   @RequestParam(required = false) String reportPath
                                   ) throws JRException, SQLException, IOException {
         if(format==null){
             format = "pdf";
         }
         JSONObject j = new JSONObject();
         if(format.equalsIgnoreCase("pdf")) {
-            String p = "C:\\pdf\\" + report + ".pdf";
-//        String p= "C:\\pdf\\"+report+".pdf";
+            String p = reportPath + report + ".pdf";
             System.out.println(path);
             File f = new File(path);
             byte[] logo = Files.readAllBytes(Paths.get(path));
@@ -68,7 +68,7 @@ public class ReportController {
             parameters.put("dateTo", dateTo);
             parameters.put("dateAsof", dateAsof);
 
-            boolean exist = Files.deleteIfExists(Paths.get("C:\\pdf\\" + report + ".pdf"));
+            boolean exist = Files.deleteIfExists(Paths.get(reportPath + report + ".pdf"));
             if (exist) {
                 System.out.println("File exists and was deleted");
             } else {
@@ -115,11 +115,11 @@ public class ReportController {
             }
 
             Path src = Paths.get(report+".xlsx");
-            boolean exist = Files.deleteIfExists(Paths.get("C:\\excel\\" + report + ".xlsx"));
-            Path dest = Paths.get("C:\\excel\\" + report + ".xlsx");
+            boolean exist = Files.deleteIfExists(Paths.get(reportPath + report + ".xlsx"));
+            Path dest = Paths.get(reportPath + report + ".xlsx");
             FileUtils.copyFile(src.toFile(), dest.toFile());
             boolean rm = Files.deleteIfExists(Paths.get(report+".xlsx"));
-            j.put("path","C:\\excel\\" + report + ".xlsx");
+            j.put("path",reportPath + report + ".xlsx");
 
         }
 
